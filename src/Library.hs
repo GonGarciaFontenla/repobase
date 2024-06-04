@@ -1,5 +1,6 @@
 module Library where
 import PdePreludat
+import GHC.Num (Num)
 
 doble :: Number -> Number
 doble numero = numero + numero
@@ -22,7 +23,7 @@ bizcochoBorracho :: Postre
 bizcochoBorracho = Postre "Bizcocho borracho" ["fruta" , "crema"] 100 25
 
 tarta :: Postre
-tarta = Postre "Tarta de melaza" ["melaza"] 50 0
+tarta = Postre "Tarta de melaza" ["melaza"] 50 1
 
 --Modelar los hechizos, sabiendo que deberían poderse agregar más sin modificar el código existente.
 type Hechizo = Postre -> Postre
@@ -80,3 +81,15 @@ tieneSabores = not . null .sabores
 estaCongelado :: Postre -> Bool
 estaCongelado = (<=0) . temperatura 
 
+--Agregar consigna
+promedioPeso :: [Postre] -> Number
+promedioPeso = promedio . obtenerPesos 
+
+promedio :: [Number] -> Number
+promedio pesos = (/length pesos) (sum pesos)
+
+postresListos :: [Postre] -> [Postre] 
+postresListos = filter estaListo
+
+obtenerPesos :: [Postre] -> [Number]
+obtenerPesos postres = map peso (postresListos postres)
